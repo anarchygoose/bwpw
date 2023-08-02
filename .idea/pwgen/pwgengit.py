@@ -25,13 +25,12 @@ def myClick():
     listbox.insert(END,str(pw))
 
 def clear():
-    main.destroy()
-    os.startfile("bwpw.exe")
+    listbox.delete(0, END)
 
 myButton = ttk.Button(main, text="pw generator :D", width=30, command=myClick)
 myButton.pack()
 
-clearbtn=ttk.Button(main,text='restart',command=clear)
+clearbtn=ttk.Button(main,text='clear pws :D', width=30, command=clear)
 clearbtn.pack()
 
 main.mainloop()
