@@ -1,49 +1,37 @@
 import tkinter
 from tkinter import *
 from tkinter import ttk
-from pwgenerator import pwOutput
+from pwpullergit import pwOutput
 import os
 
 main = Tk()
 main.geometry("220x300")
 main.title("bws pws")
 main.iconbitmap("benguin.ico")
+lbframe = Frame(main)
+lbscroll = ttk.Scrollbar(lbframe, orient=VERTICAL)
+lbscroll.config(command=Listbox.yview)
+lbscroll.pack(side=RIGHT, fill=Y)
+lbframe.pack()
 
-#attempting to make scrollbar \/
-main_frame = Frame(main)
-main_frame.pack(fill=BOTH, expand=1)
-
-my_canvas = Canvas(main_frame, borderwidth=0)
-my_canvas.pack(side=LEFT, fill=BOTH, expand=1)
-
-#not working scrollbar
-#my_scrollbar = ttk.Scrollbar(my_canvas, orient=VERTICAL, command=my_canvas.yview)
-#my_scrollbar.pack(side=RIGHT, fill=Y)
-
-#my_canvas.configure(yscrollcommand=my_scrollbar.set)
-#my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion=my_canvas.bbox('all')))
-
-second_frame = Frame(my_canvas)
-my_canvas.create_window((0,0), window=second_frame, anchor="nw")
-my_canvas.configure(scrollregion=my_canvas.bbox("all"))
+listbox = tkinter.Listbox(lbframe, width=35, height=15 , bd=1, bg="#F5F5F6",
+                          selectbackground="#6600C1" ,relief=RIDGE, yscrollcommand=lbscroll.set)
+listbox.pack()
 
 
-#pw generator
+
 def myClick():
     pw = pwOutput()
-    label1 = tkinter.Entry(my_canvas,bd=0, textvariable=pw)
-    label1.insert(0,str(pw))
-    label1.config(state = "readonly")
-    label1.pack()
-    return label1
+    listbox.insert(END,str(pw))
 
 def clear():
     main.destroy()
     os.startfile("bwpw.exe")
 
+myButton = ttk.Button(main, text="pw generator :D", width=30, command=myClick)
+myButton.pack()
+
 clearbtn=ttk.Button(main,text='restart',command=clear)
 clearbtn.pack()
 
-myButton = ttk.Button(my_canvas, text="pw generator :D", width=20, command=myClick)
-myButton.pack()
 main.mainloop()
